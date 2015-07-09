@@ -2,6 +2,9 @@ class BaseService(object):
     def __init__(self, *args, **kwargs):
         pass
 
+    def posts_in_new_york(self):
+        raise NotImplementedError
+
     def location(self, **args):
         raise NotImplementedError
 
