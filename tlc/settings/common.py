@@ -1,4 +1,4 @@
-from tlc.settings import secret
+from . import secret
 
 DATASOURCES = {
     'instagram': dict(
