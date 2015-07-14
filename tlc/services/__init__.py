@@ -23,7 +23,7 @@ class Geocode(object):
         return geocode[0][u'geometry'][u'location'][u'lat'], geocode[0][u'geometry'][u'location'][u'lng']
 
     def reverse_geocode(self, lat, lng):
-        geocode = self.reverse_geocode((lat, lng))
+        geocode = self.gmaps.reverse_geocode((lat, lng))
         return geocode[0][u'formatted_address']
 
 
