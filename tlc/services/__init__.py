@@ -5,7 +5,13 @@ from instagram.client import InstagramAPI
 import googlemaps
 from factual import Factual
 from factual.utils import circle
-import tweepy
+import json
+from TwitterSearch import TwitterSearch, TwitterSearchOrder
+import foursquare
+import urllib3
+
+
+urllib3.disable_warnings()
 
 
 class Geocode(object):
@@ -21,15 +27,23 @@ class Geocode(object):
         return geocode[0][u'formatted_address']
 
 
+class FactualService(object):
+    def __init__(self):
+        factual_id, factual_secret = DATASOURCES['factual']['app_id'], DATASOURCES['factual']['app_secret']
+        places = Factual(factual_id, factual_secret)
+        self.places = places.table('places')
+
+    def get_landmarks(self, lat, lng):
+        data = self.places.geo(circle(lat, lng, 800)).data()
+        return data
+
+
 class InstagramService(object):
     def __init__(self):
         client_id, client_secret = DATASOURCES['instagram']['client_id'], DATASOURCES['instagram']['client_secret']
         self.api = InstagramAPI(client_id=client_id, client_secret=client_secret)
         app_id, app_secret = DATASOURCES['clarifai']['app_id'], DATASOURCES['clarifai']['app_secret']
         self.image_api = ClarifaiApi(app_id=app_id, app_secret=app_secret)
-        factual_id, factual_secret = DATASOURCES['factual']['app_id'], DATASOURCES['factual']['app_secret']
-        places = Factual(factual_id, factual_secret)
-        self.places = places.table('places')
 
     def posts_in_new_york(self):
         media = []
@@ -69,10 +83,6 @@ class InstagramService(object):
                         hashtags[token[1:]] = count + 1
         return hashtags
 
-    def get_landmarks(self, lat, lng):
-        data = self.places.geo(circle(lat, lng, 800)).data()
-        return data
-
     def get_tags(self, place):
         tags = {}
         lat, lng = Geocode().geocode(place)
@@ -85,8 +95,40 @@ class InstagramService(object):
                 tags[tag] = count + 1
         return tags
 
+
 class TwitterService(object):
     def __init__(self):
-        auth = tweepy.OAuthHandler(DATASOURCES['twitter']['api_key'], DATASOURCES['twitter']['api_secret'])
-        auth.set_access_token(DATASOURCES['twitter']['access_token'], DATASOURCES['twitter']['access_token_secret'])
-        self.api = tweepy.API(auth)
+        self.properties = TwitterSearchOrder()
+        self.properties.set_keywords([''])
+        self.properties.set_count(100)
+        self.properties.set_include_entities(False)
+        self.api = TwitterSearch(consumer_key=DATASOURCES['twitter']['api_key'],
+                                 consumer_secret=DATASOURCES['twitter']['api_secret'],
+                                 access_token=DATASOURCES['twitter']['access_token'],
+                                 access_token_secret=DATASOURCES['twitter']['access_token_secret'])
+
+    def get_tweets(self, lat, lng):
+        self.properties.set_geocode(float(lat), float(lng), 1)
+        response = self.api.search_tweets(self.properties)
+        return response
+
+
+class FoursquareService(object):
+    def __init__(self):
+        self.client = foursquare.Foursquare(client_id=DATASOURCES['foursquare']['client_id'],
+                                            client_secret=DATASOURCES['foursquare']['client_secret'])
+
+    def get_venues(self, lat, lng, query=''):
+        result = self.client.venues.search(params={'query': query, 'll': str(lat) + ',' + str(lng)})
+        return result
+
+    def get_trending_venues(self, lat, lng, query=''):
+        result = self.client.venues.trending(params={'query': query, 'll': str(lat) + ',' + str(lng)})
+        return result
+
+    def get_tips(self, lat, lng):
+        result = self.client.tips.search(params={'ll': str(lat) + ',' + str(lng)})
+        return result
+
+# class UberService(object):
+#    def __init__(self):
