@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TLC App</title>
+  <!--<script>document.write('<script type="text/javascript" src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>-->
+  <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/keen-dashboards.css" />
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.css' rel='stylesheet' />
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+  <link rel="stylesheet" type="text/css" href="static/geo-explorer.css" />
+  <script type="text/javascript" src="assets/lib/instafeed/instafeed.min.js"></script>
+  <script type="text/javascript">
+        var feed = new Instafeed({
+        get: 'popular',
+        limit: "20",
+        /*tagName: 'Uber',*/
+        clientId: '1443af84d1094e26826078f818e49ca0',
+         useHttp: true   
+      });
+ feed.run();
+</script>
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon"/>
+</head>
+<body  class="application">
+
+  <div id="app-wrapper">
+    <div id="app-toolbar">
+      <form action="" onsubmit="return false;" method="post">
+        <div class="row tools">
+          <div class="col-sm-2">
+            <div class="tool radius">
+              <h5>Query Radius</h5>
+              <input type="number" id="radius-value" class="form-control" value="">
+              <select class="form-control" id="radius-suffix">
+                <option></option>
+                <option value="mi">mi</option>
+                <option value="km">km</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool coordinates">
+              <h5>Latitude</h5>
+              <input type="number" step="any" id="coordinates-lat" class="form-control" placeholder="Latitude">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool coordinates">
+              <h5>Longitude</h5>
+              <input type="number" step="any" id="coordinates-lng" class="form-control" placeholder="Longitude">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool timeframe">
+              <h5>Start time</h5>
+              <input type="date" id="timeframe-start" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool timeframe">
+              <h5>End time</h5>
+              <input type="date" id="timeframe-end" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool">
+              <h3> <a href="https://github.com/rybo449/tlc/">TLC Library</a></h3>
+              <button id="refresh" class="btn btn-primary btn-block">Refresh</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="app-maparea"></div>
+
+    <div id="app-sidebar">
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Instagram Feed
+        </div>
+        <div class="chart-stage">
+          <div id="instafeed"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+         Twitter Feed
+        </div>
+        <div class="chart-stage">
+          <a class="twitter-timeline" href="https://twitter.com/hashtag/NYC"
+          height="500" data-widget-id="622385326854676480">#NYC Tweets</a>
+          <a href="https://twitter.com/intent/tweet?button_hashtag=TwitterStories" class="twitter-hashtag-button" data-related="lluvi">Tweet #TwitterStories</a>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total Trips per Day
+        </div>
+        <div class="chart-stage">
+          <div id="chart-02"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total Trips per Day
+        </div>
+        <div class="chart-stage">
+          <div id="chart-03"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="small text-muted">Data Source; <a href="https://github.com/rybo449/tlc">TLC App</a></p>
+
+  <script type="text/javascript" src="https://api.tiles.mapbox.com/mapbox.js/v2.0.1/mapbox.js"></script>
+  <script type="text/javascript" src="assets/lib/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="assets/lib/keen-js/dist/keen.min.js"></script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!--<script type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/3.1.0/keen.js?v=20141106"></script>-->
+  <script type="text/javascript" src="assets/js/meta.js"></script>
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+  <script type="text/javascript" src="static/geo-explorer.js"></script>
+</body>
+</html>
