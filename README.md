@@ -66,6 +66,10 @@ print api.get_venues(lat, lng, query) # returns a list of coffee shops in the vi
 ```
 For more functionality see the code in `tlc/services/__init__.py`
 
+### Example App
+
+![Alt text](https://raw.githubusercontent.com/rybo449/tlc/master/examples/static/example.png "Map showing latest instagram and twitter posts in a location")
+
 This package is aimed at people new to data science and want to start collecting data in a quick and easy manner and do analysis. It helps people who want to start analyzing data and do not want to read through the entire documentation of each of the above APIs.
 
 It is intended at academics who do not want to spend time on building their own data collection infrastructure. Please feel free to download and modify the code as per your needs and add more functionalities as you wish.
