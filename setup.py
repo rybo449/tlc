@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
     url='http://github.com/rybo449/tlc',
     install_requires=[
-        'httplib2==0.9.1',
+        'httplib2==0.19.0',
         'python-instagram==1.3.1',
         'simplejson==3.7.3',
         'six==1.9.0',
