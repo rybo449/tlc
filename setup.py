@@ -28,7 +28,7 @@ setup(
         'Pillow==2.9.0',
         'TwitterSearch==1.0.1',
         'foursquare==2015.02.02',
-        'urllib3==1.10.4',
+        'urllib3==1.26.5',
     ],
     keywords='TLC',
     zip_safe = True
