@@ -25,7 +25,7 @@ setup(
         'clarifai==0.2',
         'googlemaps==2.2',
         'factual-api==1.6.1',
-        'Pillow==2.9.0',
+        'Pillow==8.3.2',
         'TwitterSearch==1.0.1',
         'foursquare==2015.02.02',
         'urllib3==1.10.4',
